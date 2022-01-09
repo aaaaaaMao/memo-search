@@ -1,0 +1,29 @@
+{
+    "manifest_version": 2,
+    "name": "Memo Search",
+    "version": "0.1.0",
+    "description": "Memo Search（Fake）",
+    "icons": {
+        "16": "images/logo4.png",
+        "48": "images/logo4.png"
+    },
+    "browser_action": {
+        "default_icon": {
+            "19": "images/logo4.png"
+        },
+        "default_title": "Memo Search",
+        "default_popup": "popup.html"
+    },
+    "content_scripts": [{
+        "matches": ["<all_urls>"],
+        "js": ["js/select.js"]
+    }],
+    "background": {
+        "scripts": [
+            "js/menus.js"
+        ]
+    },
+    "permissions": [
+        "contextMenus"
+    ]
+}
