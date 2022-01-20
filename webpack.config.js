@@ -1,13 +1,15 @@
 const path = require('path')
 
 const { VueLoaderPlugin } = require('vue-loader')
+const CopyWebpackPlugin = require("copy-webpack-plugin")
 
 module.exports = {
   mode: 'production',
   entry: './src/index.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'index.js'
+    filename: 'index.js',
+    clean: true
   },
   devServer: {
     contentBase: path.resolve(__dirname, "dist"),
@@ -50,6 +52,24 @@ module.exports = {
     ]
   },
   plugins: [
-    new VueLoaderPlugin()
+    new VueLoaderPlugin(),
+    new CopyWebpackPlugin({
+      patterns: [{
+        from: path.resolve(__dirname, "src/crx"),
+        to: path.resolve(__dirname, "dist")
+      }, {
+        from: path.resolve(__dirname, "html"),
+        to: path.resolve(__dirname, "dist"),
+        globOptions: {
+          ignore: ['**/index.html']
+        }
+      }, {
+        from: path.resolve(__dirname, "images"),
+        to: path.resolve(__dirname, "dist/images"),
+        globOptions: {
+          ignore: ['**/preview.png']
+        }
+      }]
+    })
   ]
 }
