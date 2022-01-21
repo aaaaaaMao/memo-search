@@ -1,6 +1,6 @@
 {
   "name": "memo-search",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Memo Search (Fake)",
   "main": "index.js",
   "dependencies": {},
@@ -20,7 +20,8 @@
     "webpack-cli": "^4.9.1"
   },
   "scripts": {
-    "build": "webpack"
+    "build": "webpack",
+    "watch": "webpack --watch"
   },
   "repository": {
     "type": "git",

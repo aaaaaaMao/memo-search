@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Memo Search",
-    "version": "0.2.0",
+    "version": "0.2.1",
     "description": "Memo Search（Fake）",
     "icons": {
         "16": "images/logo4.png",
@@ -20,7 +20,8 @@
     }],
     "background": {
         "scripts": [
-            "menus.js"
+            "menus.js",
+            "hot-reload.js"
         ]
     },
     "permissions": [

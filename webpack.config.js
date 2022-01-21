@@ -4,18 +4,14 @@ const { VueLoaderPlugin } = require('vue-loader')
 const CopyWebpackPlugin = require("copy-webpack-plugin")
 
 module.exports = {
-  mode: 'production',
+  mode: 'development',
   entry: './src/index.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'index.js',
     clean: true
   },
-  devServer: {
-    contentBase: path.resolve(__dirname, "dist"),
-    historyApiFallback: true,
-    overlay: true
-  },
+  devtool: 'inline-source-map',
   resolve: {
     alias: {
       'vue$': 'vue/dist/vue.esm.js'

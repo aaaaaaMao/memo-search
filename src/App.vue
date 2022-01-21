@@ -31,6 +31,7 @@ export default {
   position: absolute;
   align-items: flex-start;
   display: none;
+  z-index: 100;
 }
 
 #mms-icon {
