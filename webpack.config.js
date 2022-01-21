@@ -39,12 +39,12 @@ module.exports = {
         ]
       },
       {
-        test: /\.(png|jpg|gif|svg)$/,
-        loader: 'file-loader',
+        test: /\.(png|jpe?g|gif|svg)$/,
+        loader: 'url-loader',
         options: {
-          name: 'img/[name].[ext]?[hash]'
+          esModule: false
         }
-      }
+      },
     ]
   },
   plugins: [

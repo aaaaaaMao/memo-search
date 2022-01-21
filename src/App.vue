@@ -1,6 +1,6 @@
 <template>
   <div id="memo-search">
-    <img id="mms-icon" src="https://www.maimemo.com/res/images/site/logo4.png"/>  
+    <img id="mms-icon" src="../images/logo4.png"/>  
     <div id="mms-content">
       <div id="mms-bar"></div> 
       <div id="mms-word-detail">
