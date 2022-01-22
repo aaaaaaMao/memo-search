@@ -5,22 +5,23 @@ const init = document.createElement('div')
 init.id = 'memo-search'
 document.body.appendChild(init)
 
-new Vue({
+const mainApp = new Vue({
   el: '#memo-search',
-  template: '<App/>',
-  components: { App }
+  template: '<app v-bind:selectedContent="selectedContent"/>',
+  components: { App },
+  data: {
+    selectedContent: ''
+  }
 })
 
-const contentDiv = document.getElementById('mms-content')
-contentDiv.style.display = 'none'
-
-const searchIcon = document.getElementById('mms-icon')
 const memoSearchApp = document.getElementById('memo-search')
 
 window.onmouseup = function(event) {
   const selection = window.getSelection();
   const content = selection.toString().trim()
   const srcElement = event.srcElement
+
+  mainApp.selectedContent = content
 
   if (srcElement.id !== 'mms-icon') {
     if (content) {
@@ -35,13 +36,11 @@ window.onmouseup = function(event) {
       memoSearchApp.style.top = `${coord.y}px`
       memoSearchApp.style.left = `${coord.x}px`
       memoSearchApp.style.display = 'flex'
-
-      document.getElementById('mms-spelling').innerHTML = content
+      // document.getElementById('mms-spelling').innerHTML = content
     } else {
       memoSearchApp.style.display = 'none'
     }
   }
-  contentDiv.style.display = 'none'
 }
 
 function getCoord(base, offset) {
@@ -49,8 +48,4 @@ function getCoord(base, offset) {
     x: base.x + offset.x + document.documentElement.scrollLeft + document.body.scrollLeft,
     y: base.y + offset.y + document.documentElement.scrollTop + document.body.scrollTop
   }
-}
-
-searchIcon.onclick = function(event) {
-  contentDiv.style.display = 'inline-block'
 }
