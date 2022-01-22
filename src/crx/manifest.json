@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Memo Search",
-    "version": "0.2.4",
+    "version": "0.2.5",
     "description": "Memo Search（Fake）",
     "icons": {
         "16": "images/logo4.png",

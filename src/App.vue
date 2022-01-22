@@ -1,11 +1,18 @@
 <template>
-  <div id="memo-search" v-if="word.spelling" v-bind:style="coordStyle">
+  <div id="memo-search" v-if="word.spelling || focusContent" v-bind:style="coordStyle">
     <img id="mms-icon" 
       src="../images/logo4.png"
-      v-if="!showContent && word.spelling" 
+      v-if="!showContent && !focusContent && word.spelling" 
       v-on:click="showContent=true"/>  
-    <div id="mms-content" v-if="showContent && word.spelling">
-      <div id="mms-bar"></div>
+    <div id="mms-content"
+      @mouseover="focusContent=true"
+      @mouseleave="focusContent=false" 
+      v-if="showContent || focusContent">
+      <div id="mms-bar">
+        <span id="mms-favorite" 
+          v-on:click="favoriteWord"
+          v-bind:style="favIconStyle">★</span>
+      </div>
       <word-detail v-bind:word="word"/>
     </div>
   </div>
@@ -28,25 +35,41 @@ export default {
         phoneticUs: '美 [ʊpsˌuːps]',
         interpretation: 'int. 哎哟，啊呀（某人摔倒或出了点小差错时的用语）'
       },
-      showContent: false,
       coordStyle: {
         top: '0px',
         left: '0px'
-      }
+      },
+      favIconStyle: {
+        color: '#FFFFFF'
+      },
+      showContent: false,
+      showFavorite: false,
+      focusContent: false,
     }
   },
   watch: {
     selectedContent: function() {
-      if (!this.selectedContent) {
-        this.showContent = false
+      if (!this.focusContent) {
+        this.word.spelling = this.selectedContent
+
+        if (!this.selectedContent) {
+          this.showContent = false
+        }
       }
-      this.word.spelling = this.selectedContent
     },
     coord: function() {
-      if (!this.showContent) {
+      if (!this.focusContent) {
         this.coordStyle.top = `${this.coord.y}px`
         this.coordStyle.left = `${this.coord.x}px`
       }
+    }
+  },
+  methods: {
+    favoriteWord: function() {
+      this.showFavorite = !this.showFavorite
+      this.favIconStyle.color = this.showFavorite
+        ? '#f6f334'
+        : '#FFFFFF'
     }
   }
 }
@@ -80,5 +103,10 @@ export default {
   background: #469F87;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
+}
+
+#mms-favorite {
+  font-size: 20px;
+  margin-left: 7px;
 }
 </style>
