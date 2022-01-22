@@ -1,7 +1,10 @@
 <template>
-  <div id="memo-search">
-    <img id="mms-icon" src="../images/logo4.png" v-on:click="show=true" />  
-    <div id="mms-content" v-if="show && word.spelling">
+  <div id="memo-search" v-if="word.spelling" v-bind:style="coordStyle">
+    <img id="mms-icon" 
+      src="../images/logo4.png"
+      v-if="!showContent && word.spelling" 
+      v-on:click="showContent=true"/>  
+    <div id="mms-content" v-if="showContent && word.spelling">
       <div id="mms-bar"></div>
       <word-detail v-bind:word="word"/>
     </div>
@@ -16,21 +19,34 @@ export default {
   components: {
     WordDetail
   },
-  props: ['selectedContent'],
+  props: ['selectedContent', 'coord'],
   data: function() {
     return {
       word: {
-        spelling: 'Oops',
+        spelling: '',
         phoneticUk: '英 [ʊps]',
         phoneticUs: '美 [ʊpsˌuːps]',
         interpretation: 'int. 哎哟，啊呀（某人摔倒或出了点小差错时的用语）'
       },
-      show: false
+      showContent: false,
+      coordStyle: {
+        top: '0px',
+        left: '0px'
+      }
     }
   },
   watch: {
     selectedContent: function() {
+      if (!this.selectedContent) {
+        this.showContent = false
+      }
       this.word.spelling = this.selectedContent
+    },
+    coord: function() {
+      if (!this.showContent) {
+        this.coordStyle.top = `${this.coord.y}px`
+        this.coordStyle.left = `${this.coord.x}px`
+      }
     }
   }
 }
