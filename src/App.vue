@@ -12,19 +12,24 @@
         <span id="mms-favorite" 
           v-on:click="favoriteWord"
           v-bind:style="favIconStyle">★</span>
+        
+        <span id="mms-create-notepad">+ 新建云词本</span>
       </div>
-      <word-detail v-bind:word="word"/>
+      <word-detail v-if="!showFavorite" v-bind:word="word"/>
+      <favorites v-else/>
     </div>
   </div>
 </template>
 
 <script>
 import WordDetail from './components/WordDetail.vue'
+import Favorites from './components/Favorites.vue'
 
 export default {
   name: 'memo-search',
   components: {
-    WordDetail
+    WordDetail,
+    Favorites
   },
   props: ['selectedContent', 'coord'],
   data: function() {
@@ -50,10 +55,14 @@ export default {
   watch: {
     selectedContent: function() {
       if (!this.focusContent) {
+        if (this.selectedContent !== this.word.spelling) {
+          this.showFavorite = false
+        }
         this.word.spelling = this.selectedContent
 
         if (!this.selectedContent) {
           this.showContent = false
+          this.showFavorite = false
         }
       }
     },
@@ -108,5 +117,11 @@ export default {
 #mms-favorite {
   font-size: 20px;
   margin-left: 7px;
+}
+
+#mms-create-notepad {
+  font-size: 14px;
+  margin-left: 7px;
+  color: #FFFFFF;
 }
 </style>
