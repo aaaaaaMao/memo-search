@@ -1,15 +1,15 @@
 <template>
-  <div id="mms-word-detail">
-    <span id="mms-spelling">{{word.spelling}}</span>
+  <div id='mms-word-detail'>
+    <span id='mms-spelling'>{{ word.spelling }}</span>
     <dotted-line/>
-    <div id="mms-phonetic-uk" class="mms-phonetic">
-      <span>{{word.phoneticUk}}</span>
+    <div id='mms-phonetic-uk' class='mms-phonetic'>
+      <span>{{ word.phoneticUk }}</span>
     </div>
-    <div id="mms-phonetic-us" class="mms-phonetic">
-      <span>{{word.phoneticUs}}</span>
+    <div id='mms-phonetic-us' class='mms-phonetic'>
+      <span>{{ word.phoneticUs }}</span>
     </div>
-    <div id="mms-interpretation">
-      <span>{{word.interpretation}}</span>
+    <div id='mms-interpretation'>
+      <span>{{ word.interpretation }}</span>
     </div>
   </div>
 </template>

@@ -19,6 +19,9 @@ module.exports = {
   ],
   rules: {
     semi: ['error', 'always'],
-    quotes: ['error', 'single']
+    quotes: ['error', 'single'],
+    'template-curly-spacing': ['error', 'never'],
+    'vue/html-quotes': ['error', 'single'],
+    'vue/mustache-interpolation-spacing': ['error', 'always']
   }
 };
