@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import DottedLine from './DottedLine.vue'
+import DottedLine from './DottedLine.vue';
 
 export default {
   name: 'mms-word-detail',
@@ -23,7 +23,7 @@ export default {
     DottedLine
   },
   props: ['word']
-}
+};
 </script>
 
 <style>
