@@ -7,14 +7,13 @@ document.body.appendChild(init)
 
 const mainApp = new Vue({
   el: '#memo-search',
-  template: '<app v-bind:selectedContent="selectedContent"/>',
+  template: '<app v-bind:selectedContent="selectedContent" v-bind:coord="coord"/>',
   components: { App },
   data: {
-    selectedContent: ''
+    selectedContent: '',
+    coord: { x: 0, y: 0 }
   }
 })
-
-const memoSearchApp = document.getElementById('memo-search')
 
 window.onmouseup = function(event) {
   const selection = window.getSelection();
@@ -25,20 +24,13 @@ window.onmouseup = function(event) {
 
   if (srcElement.id !== 'mms-icon') {
     if (content) {
-      const coord = getCoord({
+      mainApp.coord = getCoord({
           x: event.clientX,
           y: event.clientY
       }, {
           x: 10,
           y: 0
       })
-
-      memoSearchApp.style.top = `${coord.y}px`
-      memoSearchApp.style.left = `${coord.x}px`
-      memoSearchApp.style.display = 'flex'
-      // document.getElementById('mms-spelling').innerHTML = content
-    } else {
-      memoSearchApp.style.display = 'none'
     }
   }
 }
