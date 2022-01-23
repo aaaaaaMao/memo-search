@@ -27,9 +27,10 @@ export default {
 
 <style scoped>
 .mms-editor {
-  position: absolute;
+  position: fixed;
   width: 30vw;
   height: 100vh;
+  top: 0;
   right: 0;
   padding: 5px;
   font-size: 12px;

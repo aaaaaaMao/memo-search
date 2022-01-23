@@ -3,11 +3,11 @@ import App from './App.vue'
 
 const init = document.createElement('div')
 init.id = 'memo-search'
-document.body.appendChild(init)
+document.getElementsByTagName('html')[0].appendChild(init)
 
 const mainApp = new Vue({
   el: '#memo-search',
-  template: '<app v-bind:selectedContent="selectedContent" v-bind:coord="coord"/>',
+  template: '<app :selectedContent="selectedContent" :coord="coord"/>',
   components: { App },
   data: {
     selectedContent: '',
