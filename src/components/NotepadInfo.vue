@@ -1,14 +1,14 @@
 <template>
-  <div class="mms-notepad-info">
+  <div class='mms-notepad-info'>
     <div>
-      <span class="mms-notepad-title">{{ notepad.title }}</span>
-      <div class="mms-notepad-attr">
+      <span class='mms-notepad-title'>{{ notepad.title }}</span>
+      <div class='mms-notepad-attr'>
         <span>{{ index + 1 }} - </span>
         <span>{{ notepad.is_private ? '私有' : '公开' }}</span>
       </div>
     </div>
-    <div class="mms-notepad-selected">
-      {{ notepad.is_selected ? '⚈' : '⚆'}}
+    <div class='mms-notepad-selected'>
+      {{ notepad.is_selected ? '⚈' : '⚆' }}
     </div>
   </div>
 </template>
@@ -17,7 +17,7 @@
 export default {
   name: 'mms-notepad-info',
   props: ['notepad', 'index']
-}
+};
 </script>
 
 <style>

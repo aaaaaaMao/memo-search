@@ -1,7 +1,7 @@
-const path = require('path')
+const path = require('path');
 
-const { VueLoaderPlugin } = require('vue-loader')
-const CopyWebpackPlugin = require("copy-webpack-plugin")
+const { VueLoaderPlugin } = require('vue-loader');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   mode: 'development',
@@ -14,9 +14,9 @@ module.exports = {
   devtool: 'inline-source-map',
   resolve: {
     alias: {
-      'vue$': 'vue/dist/vue.esm.js'
+      vue$: 'vue/dist/vue.esm.js'
     }
-  },  
+  },
   module: {
     rules: [
       {
@@ -44,28 +44,28 @@ module.exports = {
         options: {
           esModule: false
         }
-      },
+      }
     ]
   },
   plugins: [
     new VueLoaderPlugin(),
     new CopyWebpackPlugin({
       patterns: [{
-        from: path.resolve(__dirname, "src/crx"),
-        to: path.resolve(__dirname, "dist")
+        from: path.resolve(__dirname, 'src/crx'),
+        to: path.resolve(__dirname, 'dist')
       }, {
-        from: path.resolve(__dirname, "html"),
-        to: path.resolve(__dirname, "dist"),
+        from: path.resolve(__dirname, 'html'),
+        to: path.resolve(__dirname, 'dist'),
         globOptions: {
           ignore: ['**/index.html']
         }
       }, {
-        from: path.resolve(__dirname, "images"),
-        to: path.resolve(__dirname, "dist/images"),
+        from: path.resolve(__dirname, 'images'),
+        to: path.resolve(__dirname, 'dist/images'),
         globOptions: {
           ignore: ['**/preview.png']
         }
       }]
     })
   ]
-}
+};
