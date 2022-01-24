@@ -10,13 +10,13 @@
            @mouseleave='focusContent=false'
            v-if='showContent || focusContent'>
         <div id='mms-bar'>
-        <span id='mms-favorite'
+          <span id='mms-favorite'
               v-on:click.prevent='favoriteWord'
               v-bind:style='favIconStyle'>★</span>
 
           <span id='mms-create-notepad' @click='enterEditor'>
           + 新建云词本
-        </span>
+          </span>
         </div>
         <word-detail v-if='!showFavorite' v-bind:word='word'/>
         <favorites v-else/>
@@ -135,6 +135,8 @@ export default {
   background: #469F87;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
+  display: flex;
+  justify-content: space-between;
 }
 
 #mms-favorite {
@@ -144,7 +146,7 @@ export default {
 
 #mms-create-notepad {
   font-size: 14px;
-  margin-left: 7px;
+  margin-right: 7px;
   color: #FFFFFF;
 }
 
