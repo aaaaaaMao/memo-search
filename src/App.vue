@@ -4,7 +4,7 @@
       <img id='mms-icon'
            src='../images/logo4.png'
            v-if='!showContent && !focusContent && word.spelling'
-           v-on:click='showContent=true'/>
+           v-on:click='searchWord'/>
       <div id='mms-content'
            @mouseover='focusContent=true'
            @mouseleave='focusContent=false'
@@ -34,6 +34,8 @@
 import WordDetail from './components/WordDetail.vue';
 import Favorites from './components/Favorites.vue';
 import NotepadEditor from './components/NotepadEditor.vue';
+
+import { searchWord } from './api';
 
 export default {
   name: 'memo-search',
@@ -102,6 +104,18 @@ export default {
     },
     enterEditor () {
       this.isEnterEditor = true;
+    },
+    searchWord () {
+      this.showContent = true;
+      searchWord(this.word.spelling)
+        .then(data => {
+          if (data) {
+            this.word.phoneticUk = data.phoneticUk;
+            this.word.phoneticUs = data.phoneticUs;
+            this.word.interpretation = data.interpretation;
+          }
+        })
+        .catch(err => console.error(err));
     }
   }
 };

@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Memo Search",
-    "version": "0.3.0",
+    "version": "0.3.1",
     "description": "Memo Search（Fake）",
     "icons": {
         "16": "images/logo4.png",
@@ -25,6 +25,7 @@
         ]
     },
     "permissions": [
-        "contextMenus"
+        "contextMenus",
+        "http://localhost:7001/*"
     ]
 }
