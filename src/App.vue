@@ -20,7 +20,7 @@
           </span>
         </div>
         <word-detail v-if='!showFavorite' v-bind:word='word'/>
-        <favorites v-else/>
+        <favorites v-else :spelling='word.spelling'/>
       </div>
     </div>
     <div v-if='isEnterEditor'>
@@ -101,9 +101,6 @@ export default {
   methods: {
     favoriteWord: function () {
       this.showFavorite = !this.showFavorite;
-      this.favIconStyle.color = this.showFavorite
-        ? '#f6f334'
-        : '#FFFFFF';
     },
     enterEditor () {
       this.isEnterEditor = true;
