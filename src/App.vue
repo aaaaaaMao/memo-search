@@ -10,9 +10,10 @@
            @mouseleave='focusContent=false'
            v-if='showContent || focusContent'>
         <div id='mms-bar'>
-          <span id='mms-favorite'
+          <img id='mms-favorite'
+              src='../images/star.256x256.png'
               v-on:click.prevent='favoriteWord'
-              v-bind:style='favIconStyle'>★</span>
+              v-bind:style='favIconStyle'/>
 
           <span id='mms-create-notepad' @click='enterEditor'>
           + 新建云词本
@@ -49,9 +50,9 @@ export default {
     return {
       word: {
         spelling: '',
-        phoneticUk: '英 [ʊps]',
-        phoneticUs: '美 [ʊpsˌuːps]',
-        interpretation: 'int. 哎哟，啊呀（某人摔倒或出了点小差错时的用语）'
+        phoneticUk: '',
+        phoneticUs: '',
+        interpretation: ''
       },
       coordStyle: {
         top: '0px',
@@ -73,7 +74,9 @@ export default {
           this.showFavorite = false;
         }
         this.word.spelling = this.selectedContent;
-
+        this.word.phoneticUk = '';
+        this.word.phoneticUs = '';
+        this.word.interpretation = '';
         if (!this.selectedContent) {
           this.showContent = false;
           this.showFavorite = false;
@@ -109,13 +112,10 @@ export default {
       this.showContent = true;
       searchWord(this.word.spelling)
         .then(data => {
-          if (data) {
-            this.word.phoneticUk = data.phoneticUk;
-            this.word.phoneticUs = data.phoneticUs;
-            this.word.interpretation = data.interpretation;
-          }
-        })
-        .catch(err => console.error(err));
+          this.word.phoneticUk = data.phoneticUk;
+          this.word.phoneticUs = data.phoneticUs;
+          this.word.interpretation = data.interpretation;
+        });
     }
   }
 };
@@ -154,8 +154,9 @@ export default {
 }
 
 #mms-favorite {
-  font-size: 20px;
-  margin-left: 7px;
+  width: 18px;
+  height: 18px;
+  margin: auto 7px;
 }
 
 #mms-create-notepad {
