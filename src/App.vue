@@ -109,6 +109,7 @@ export default {
       this.showContent = true;
       searchWord(this.word.spelling)
         .then(data => {
+          this.word.spelling = data.spelling;
           this.word.phoneticUk = data.phoneticUk;
           this.word.phoneticUs = data.phoneticUs;
           this.word.interpretation = data.interpretation;

@@ -1,4 +1,4 @@
-import { SEARCH_WORD_API, TOKEN, LIST_FAVORITES_API } from './config';
+import { SEARCH_WORD_API, TOKEN, LIST_FAVORITES_API, ADD_WORD_TO_NOTEPAD_API, REMOVE_WORD_FROM_NOTEPAD_API } from './config';
 
 export async function searchWord (word) {
   const result = {
@@ -16,7 +16,7 @@ export async function searchWord (word) {
 
     if (data.success) {
       const word = data.data.word;
-      result.spelling = data.data.spelling;
+      result.spelling = word.spelling;
       result.phoneticUk = `英 ${word.phonetic_uk}`;
       result.phoneticUs = `美 ${word.phonetic_us}`;
       result.interpretation = word.interpretation;
@@ -41,7 +41,7 @@ export async function listFavorites (word) {
   }];
 
   try {
-    const data = await fetch(`${LIST_FAVORITES_API}?word=${word.trim().toLowerCase()}`, {
+    const data = await fetch(`${LIST_FAVORITES_API}?word=${word}`, {
       headers: {
         Token: TOKEN
       }
@@ -53,4 +53,28 @@ export async function listFavorites (word) {
     console.error(err);
   }
   return result;
+}
+
+export async function updateWordInNotepad (word, notepadId, action) {
+  try {
+    const url = action === 'add'
+      ? ADD_WORD_TO_NOTEPAD_API
+      : REMOVE_WORD_FROM_NOTEPAD_API;
+    console.log(word, notepadId, action);
+    const data = await fetch(url, {
+      headers: {
+        Token: TOKEN,
+        'Content-Type': 'application/json'
+      },
+      method: 'POST',
+      body: JSON.stringify({
+        word: word,
+        notepad_id: notepadId
+      })
+    }).then(resp => resp.json());
+    return data.success;
+  } catch (err) {
+    console.error(err);
+  }
+  return false;
 }

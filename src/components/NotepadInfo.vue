@@ -4,10 +4,11 @@
       <span class='mms-notepad-title'>{{ notepad.title }}</span>
       <div class='mms-notepad-attr'>
         <span>{{ index + 1 }} - </span>
-        <span>{{ notepad.is_private ? '私有' : '公开' }}</span>
+        <span>{{ notepad.is_private ? '私有' : '公开' }} ({{ notepad.voc_count }})</span>
       </div>
     </div>
-    <div class='mms-notepad-selected'>
+    <div class='mms-notepad-selected'
+      @click='$emit("favorite-word", index)'>
       {{ notepad.is_selected ? '⚈' : '⚆' }}
     </div>
   </div>
@@ -39,5 +40,9 @@ export default {
   font-size: 20px;
   color: #469F87;
   margin-left: 50px;
+}
+
+.mms-notepad-selected:hover {
+  cursor: default;
 }
 </style>
