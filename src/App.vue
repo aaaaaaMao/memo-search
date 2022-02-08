@@ -4,22 +4,23 @@
       <img id='mms-icon'
            src='../images/logo4.png'
            v-if='!showContent && !focusContent && word.spelling'
-           v-on:click='showContent=true'/>
+           v-on:click='searchWord'/>
       <div id='mms-content'
            @mouseover='focusContent=true'
            @mouseleave='focusContent=false'
            v-if='showContent || focusContent'>
         <div id='mms-bar'>
-          <span id='mms-favorite'
+          <img id='mms-favorite'
+              src='../images/star.256x256.png'
               v-on:click.prevent='favoriteWord'
-              v-bind:style='favIconStyle'>★</span>
+              v-bind:style='favIconStyle'/>
 
           <span id='mms-create-notepad' @click='enterEditor'>
           + 新建云词本
           </span>
         </div>
         <word-detail v-if='!showFavorite' v-bind:word='word'/>
-        <favorites v-else/>
+        <favorites v-else :spelling='word.spelling'/>
       </div>
     </div>
     <div v-if='isEnterEditor'>
@@ -35,6 +36,8 @@ import WordDetail from './components/WordDetail.vue';
 import Favorites from './components/Favorites.vue';
 import NotepadEditor from './components/NotepadEditor.vue';
 
+import { searchWord } from './api';
+
 export default {
   name: 'memo-search',
   components: {
@@ -47,9 +50,9 @@ export default {
     return {
       word: {
         spelling: '',
-        phoneticUk: '英 [ʊps]',
-        phoneticUs: '美 [ʊpsˌuːps]',
-        interpretation: 'int. 哎哟，啊呀（某人摔倒或出了点小差错时的用语）'
+        phoneticUk: '',
+        phoneticUs: '',
+        interpretation: ''
       },
       coordStyle: {
         top: '0px',
@@ -71,7 +74,9 @@ export default {
           this.showFavorite = false;
         }
         this.word.spelling = this.selectedContent;
-
+        this.word.phoneticUk = '';
+        this.word.phoneticUs = '';
+        this.word.interpretation = '';
         if (!this.selectedContent) {
           this.showContent = false;
           this.showFavorite = false;
@@ -96,12 +101,19 @@ export default {
   methods: {
     favoriteWord: function () {
       this.showFavorite = !this.showFavorite;
-      this.favIconStyle.color = this.showFavorite
-        ? '#f6f334'
-        : '#FFFFFF';
     },
     enterEditor () {
       this.isEnterEditor = true;
+    },
+    searchWord () {
+      this.showContent = true;
+      searchWord(this.word.spelling)
+        .then(data => {
+          this.word.spelling = data.spelling;
+          this.word.phoneticUk = data.phoneticUk;
+          this.word.phoneticUs = data.phoneticUs;
+          this.word.interpretation = data.interpretation;
+        });
     }
   }
 };
@@ -140,8 +152,9 @@ export default {
 }
 
 #mms-favorite {
-  font-size: 20px;
-  margin-left: 7px;
+  width: 18px;
+  height: 18px;
+  margin: auto 7px;
 }
 
 #mms-create-notepad {

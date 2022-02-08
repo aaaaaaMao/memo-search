@@ -4,7 +4,10 @@
       :key='notepad.id'
       :notepad='notepad'
       :index='index'>
-      <notepad-info :notepad='notepad' :index='index'/>
+      <notepad-info
+        :notepad='notepad'
+        :index='index'
+        @favorite-word='onFavoriteWord'/>
       <dotted-line v-if='(index + 1) !== notepads.length'/>
     </div>
   </div>
@@ -14,26 +17,32 @@
 import DottedLine from './DottedLine.vue';
 import NotepadInfo from './NotepadInfo.vue';
 
+import { listFavorites, updateWordInNotepad } from '../api';
+
 export default {
   name: 'mms-favorites',
   components: {
     DottedLine,
     NotepadInfo
   },
+  props: ['spelling'],
   data: function () {
     return {
-      notepads: [{
-        id: 1,
-        title: '我的收藏 1',
-        is_private: true,
-        is_selected: true
-      }, {
-        id: 2,
-        title: '我的收藏 2',
-        is_private: false,
-        is_selected: false
-      }]
+      notepads: []
     };
+  },
+  created () {
+    listFavorites(this.spelling)
+      .then(data => {
+        this.notepads = data;
+      });
+  },
+  methods: {
+    onFavoriteWord: async function (index) {
+      const action = this.notepads[index].is_selected ? 'remove' : 'add';
+      await updateWordInNotepad(this.spelling, this.notepads[index].notepad_id, action);
+      this.notepads = await listFavorites(this.spelling);
+    }
   }
 };
 </script>
