@@ -55,7 +55,7 @@ module.exports = {
         to: path.resolve(__dirname, 'dist')
       }, {
         from: path.resolve(__dirname, 'html'),
-        to: path.resolve(__dirname, 'dist'),
+        to: path.resolve(__dirname, 'dist/html'),
         globOptions: {
           ignore: ['**/index.html']
         }

@@ -24,8 +24,10 @@
             "hot-reload.js"
         ]
     },
+    "options_page": "html/options.html",
     "permissions": [
         "contextMenus",
-        "http://localhost:7001/*"
+        "http://localhost:7001/*",
+        "storage"
     ]
 }
