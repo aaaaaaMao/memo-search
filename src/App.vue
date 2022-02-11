@@ -1,5 +1,6 @@
 <template>
   <div>
+    <meta http-equiv='Content-Security-Policy' content='upgrade-insecure-requests'>
     <div id='memo-search' v-if='(word.spelling || focusContent) && !isEnterEditor' v-bind:style='coordStyle'>
       <img id='mms-icon'
            src='../images/logo4.png'
@@ -11,12 +12,12 @@
            v-if='showContent || focusContent'>
         <div id='mms-bar'>
           <img id='mms-favorite'
-              src='../images/star.256x256.png'
-              v-on:click.prevent='favoriteWord'
-              v-bind:style='favIconStyle'/>
-
+               src='../images/star.256x256.png'
+               v-on:click.prevent='favoriteWord'
+               v-bind:style='favIconStyle'/>
           <span id='mms-create-notepad' @click='enterEditor'>
-          + 新建云词本
+            <img src='../images/aviator.jpg' alt='' class='aviator'>
+          新建云词本 +
           </span>
         </div>
         <word-detail v-if='!showFavorite' v-bind:word='word'/>
@@ -158,9 +159,17 @@ export default {
 }
 
 #mms-create-notepad {
+  display: inline-block;
+  height: 25px;
+  line-height: 25px;
   font-size: 14px;
   margin-right: 7px;
   color: #FFFFFF;
+  cursor: pointer;
+}
+
+#mms-create-notepad > img  {
+  display: inline;
 }
 
 .mask {
@@ -170,7 +179,16 @@ export default {
   top: 0;
   bottom: 0;
   z-index: 9000;
-  background-color: rgba(0,0,0,.4);
+  background-color: rgba(0, 0, 0, .4);
   opacity: 1;
+}
+
+.aviator {
+  height: 20px;
+  width: 20px;
+  border-radius: 20px;
+  overflow: hidden;
+  transform: translateY(5px);
+  cursor: pointer;
 }
 </style>

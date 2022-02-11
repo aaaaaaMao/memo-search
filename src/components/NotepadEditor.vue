@@ -5,7 +5,6 @@
     <div class='mms-editor-panel'>
       <div class='notepad-container'>
         <textarea class='notepad-container-editor' :value='words'></textarea>
-        <div>aaa</div>
       </div>
     </div>
   </div>
@@ -60,8 +59,15 @@ export default {
 }
 .notepad-container-editor {
   width: 92%;
-  height: 90%;
+  height: 50%;
+  border: none;
+  min-width: initial;
 }
+
+.notepad-container-editor::-webkit-scrollbar {
+  display: none; /* Chrome Safari */
+}
+
 .active-word {
   overflow: hidden;
   white-space: nowrap;
