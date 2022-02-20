@@ -134,10 +134,10 @@ export default {
 }
 
 #mms-content {
+  box-shadow: 0 0 4px 2px #b8b8b8;
   margin-left: 10px;
-  border-radius: 5px;
   font-size: 16px;
-  background: #469F87;
+  background: #FFFFFF;
   min-width: 200px;
   max-width: 400px;
   display: inline-block;
@@ -146,8 +146,6 @@ export default {
 #mms-bar {
   height: 25px;
   background: #469F87;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
   display: flex;
   justify-content: space-between;
 }
