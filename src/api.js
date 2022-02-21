@@ -4,6 +4,7 @@ let config = {
   HOST: '',
   TOKEN: '',
   SEARCH_WORD_API: '',
+  SEARCH_WORD_BY_YOUDAO_API: '',
   LIST_FAVORITES_API: '',
   ADD_WORD_TO_NOTEPAD_API: '',
   REMOVE_WORD_FROM_NOTEPAD_API: ''
@@ -19,12 +20,12 @@ let config = {
   });
 })();
 
-export async function searchWord (word) {
+export async function searchWordByMaimemo (word) {
   const result = {
-    spelling: 'Oops',
-    phoneticUk: '英 [ʊps]',
-    phoneticUs: '美 [ʊpsˌuːps]',
-    interpretation: 'int. 哎哟，啊呀（某人摔倒或出了点小差错时的用语）'
+    spelling: '',
+    phoneticUk: '',
+    phoneticUs: '',
+    interpretation: ''
   };
   try {
     const data = await fetch(`${config.HOST}${config.SEARCH_WORD_API}?word=${word.trim().toLowerCase()}`, {
@@ -36,8 +37,6 @@ export async function searchWord (word) {
     if (data.success) {
       const word = data.data.word;
       result.spelling = word.spelling;
-      result.phoneticUk = `英 ${word.phonetic_uk}`;
-      result.phoneticUs = `美 ${word.phonetic_us}`;
       result.interpretation = word.interpretation;
     }
   } catch (err) {
@@ -45,7 +44,23 @@ export async function searchWord (word) {
   }
   return result;
 }
+export async function searchWordByyoudao (word) {
+  let result;
+  try {
+    const data = await fetch(`${config.HOST}${config.SEARCH_WORD_BY_YOUDAO_API}?word=${word.trim().toLowerCase()}`, {
+      headers: {
+        Token: config.TOKEN
+      }
+    }).then(resp => resp.json());
 
+    if (data.success) {
+      result = data.data;
+    }
+  } catch (err) {
+    console.error(err);
+  }
+  return result;
+}
 export async function listFavorites (word) {
   const result = [{
     id: 1,

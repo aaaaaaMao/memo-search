@@ -1,5 +1,4 @@
 const path = require('path');
-
 const { VueLoaderPlugin } = require('vue-loader');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 

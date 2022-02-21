@@ -1,10 +1,12 @@
 import Vue from 'vue';
 import App from './App.vue';
+import axios from 'axios';
 
 const init = document.createElement('div');
 init.id = 'memo-search';
 document.getElementsByTagName('html')[0].appendChild(init);
 
+Vue.prototype.$http = axios;
 const mainApp = new Vue({
   el: '#memo-search',
   template: '<app :selectedContent="selectedContent" :coord="coord"/>',

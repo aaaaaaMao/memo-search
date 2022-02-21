@@ -1,26 +1,22 @@
 <template>
   <div>
     <meta http-equiv='Content-Security-Policy' content='upgrade-insecure-requests'>
-    <div id='memo-search' v-if='(word.spelling || focusContent) && !isEnterEditor' v-bind:style='coordStyle'>
-      <img id='mms-icon'
-           src='../images/logo4.png'
-           v-if='!showContent && !focusContent && word.spelling'
-           v-on:click='searchWord'/>
-      <div id='mms-content'
-           @mouseover='focusContent=true'
-           @mouseleave='focusContent=false'
-           v-if='showContent || focusContent'>
+    <div v-if='(word.spelling || focusContent) && !isEnterEditor' id='memo-search' v-bind:style='coordStyle'>
+      <img
+          v-if='!showContent && !focusContent && word.spelling'
+          id='mms-icon'
+          src='../images/logo4.png'
+          v-on:click='searchWord'/>
+      <div
+          v-if='showContent || focusContent'
+          id='mms-content'
+          @mouseover='focusContent=true'
+          @mouseleave='focusContent=false'>
         <div id='mms-bar'>
-          <img id='mms-favorite'
-               src='../images/star.256x256.png'
-               v-on:click.prevent='favoriteWord'
-               v-bind:style='favIconStyle'/>
-          <span id='mms-create-notepad' @click='enterEditor'>
-            <img src='../images/aviator.jpg' alt='' class='aviator'>
-          新建云词本 +
-          </span>
+            <img src='../images/aviator.jpg' class='aviator'>
+            <span class='add-book-list' @click='enterEditor()'>新建词本 ➕</span>
         </div>
-        <word-detail v-if='!showFavorite' v-bind:word='word'/>
+        <word-detail v-if='!showFavorite' v-bind:word='word' v-on:favorite-word='favoriteWord()'/>
         <favorites v-else :spelling='word.spelling'/>
       </div>
     </div>
@@ -31,13 +27,14 @@
   </div>
 
 </template>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/crypto-js/4.0.0/crypto-js.js"></script>
 <script>
 import WordDetail from './components/WordDetail.vue';
 import Favorites from './components/Favorites.vue';
 import NotepadEditor from './components/NotepadEditor.vue';
 
-import { searchWord } from './api';
+import { searchWordByMaimemo, searchWordByyoudao } from './api';
 
 export default {
   name: 'memo-search',
@@ -65,7 +62,7 @@ export default {
       showContent: false,
       showFavorite: false,
       focusContent: false,
-      isEnterEditor: false
+      isEnterEditor: false,
     };
   },
   watch: {
@@ -108,11 +105,8 @@ export default {
     },
     searchWord () {
       this.showContent = true;
-      searchWord(this.word.spelling)
+      searchWordByMaimemo(this.word.spelling)
         .then(data => {
-          this.word.spelling = data.spelling;
-          this.word.phoneticUk = data.phoneticUk;
-          this.word.phoneticUs = data.phoneticUs;
           this.word.interpretation = data.interpretation;
         });
     }
@@ -152,19 +146,12 @@ export default {
   justify-content: space-between;
 }
 
-#mms-favorite {
-  width: 18px;
-  height: 18px;
-  margin: auto 7px;
-}
-
-#mms-create-notepad {
+.add-book-list {
   display: inline-block;
   height: 25px;
   line-height: 25px;
-  font-size: 14px;
-  margin-right: 7px;
   color: #FFFFFF;
+  font-size: 12px;
   cursor: pointer;
 }
 
@@ -188,7 +175,7 @@ export default {
   width: 20px;
   border-radius: 20px;
   overflow: hidden;
-  transform: translateY(5px);
+  transform: translate(5px,2px);
   cursor: pointer;
 }
 </style>
