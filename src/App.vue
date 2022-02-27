@@ -1,6 +1,5 @@
 <template>
   <div>
-    <meta http-equiv='Content-Security-Policy' content='upgrade-insecure-requests'>
     <div id='memo-search' v-if='(word.spelling || focusContent) && !isEnterEditor' v-bind:style='coordStyle'>
       <img id='mms-icon'
            src='../images/logo4.png'
