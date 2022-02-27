@@ -6,7 +6,9 @@ let config = {
   SEARCH_WORD_API: '',
   LIST_FAVORITES_API: '',
   ADD_WORD_TO_NOTEPAD_API: '',
-  REMOVE_WORD_FROM_NOTEPAD_API: ''
+  REMOVE_WORD_FROM_NOTEPAD_API: '',
+  LOGIN_API: '',
+  USER_PROFILE_API: ''
 };
 (async () => {
   await init();
@@ -79,7 +81,7 @@ export async function updateWordInNotepad (word, notepadId, action) {
     const url = action === 'add'
       ? config.ADD_WORD_TO_NOTEPAD_API
       : config.REMOVE_WORD_FROM_NOTEPAD_API;
-    console.log(word, notepadId, action);
+
     const data = await fetch(config.HOST + url, {
       headers: {
         Token: config.TOKEN,
@@ -96,4 +98,39 @@ export async function updateWordInNotepad (word, notepadId, action) {
     console.error(err);
   }
   return false;
+}
+
+export async function login (identity, password) {
+  try {
+    const data = await fetch(config.HOST + config.LOGIN_API, {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      method: 'POST',
+      body: JSON.stringify({
+        identity,
+        password
+      })
+    }).then(resp => resp.json());
+    return data.success;
+  } catch (err) {
+    console.error(err);
+  }
+  return false;
+}
+
+export async function getUserProfile () {
+  try {
+    const data = await fetch(`${config.HOST}${config.USER_PROFILE_API}`, {
+      headers: {
+        Token: config.TOKEN
+      }
+    }).then(resp => resp.json());
+    if (data.success) {
+      return data.data.user;
+    }
+  } catch (err) {
+    console.error(err);
+  }
+  return null;
 }
