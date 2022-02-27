@@ -1,5 +1,6 @@
 <template>
   <div>
+    <meta http-equiv='Content-Security-Policy' content='upgrade-insecure-requests'>
     <div id='memo-search' v-if='(word.spelling || focusContent) && !isEnterEditor' v-bind:style='coordStyle'>
       <img id='mms-icon'
            src='../images/logo4.png'
@@ -11,12 +12,12 @@
            v-if='showContent || focusContent'>
         <div id='mms-bar'>
           <img id='mms-favorite'
-              src='../images/star.256x256.png'
-              v-on:click.prevent='favoriteWord'
-              v-bind:style='favIconStyle'/>
-
+               src='../images/star.256x256.png'
+               v-on:click.prevent='favoriteWord'
+               v-bind:style='favIconStyle'/>
           <span id='mms-create-notepad' @click='enterEditor'>
-          + 新建云词本
+            <img src='../images/aviator.jpg' alt='' class='aviator'>
+          新建云词本 +
           </span>
         </div>
         <word-detail v-if='!showFavorite' v-bind:word='word'/>
@@ -133,10 +134,10 @@ export default {
 }
 
 #mms-content {
+  box-shadow: 0 0 4px 2px #b8b8b8;
   margin-left: 10px;
-  border-radius: 5px;
   font-size: 16px;
-  background: #469F87;
+  background: #FFFFFF;
   min-width: 200px;
   max-width: 400px;
   display: inline-block;
@@ -145,8 +146,6 @@ export default {
 #mms-bar {
   height: 25px;
   background: #469F87;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
   display: flex;
   justify-content: space-between;
 }
@@ -158,9 +157,17 @@ export default {
 }
 
 #mms-create-notepad {
+  display: inline-block;
+  height: 25px;
+  line-height: 25px;
   font-size: 14px;
   margin-right: 7px;
   color: #FFFFFF;
+  cursor: pointer;
+}
+
+#mms-create-notepad > img  {
+  display: inline;
 }
 
 .mask {
@@ -170,7 +177,16 @@ export default {
   top: 0;
   bottom: 0;
   z-index: 9000;
-  background-color: rgba(0,0,0,.4);
+  background-color: rgba(0, 0, 0, .4);
   opacity: 1;
+}
+
+.aviator {
+  height: 20px;
+  width: 20px;
+  border-radius: 20px;
+  overflow: hidden;
+  transform: translateY(5px);
+  cursor: pointer;
 }
 </style>

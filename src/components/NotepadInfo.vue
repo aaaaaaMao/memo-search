@@ -9,7 +9,7 @@
     </div>
     <div class='mms-notepad-selected'
       @click='$emit("favorite-word", index)'>
-      {{ notepad.is_selected ? '⚈' : '⚆' }}
+      <div class='dot' :class='{isChosen:notepad.is_selected}'></div>
     </div>
   </div>
 </template>
@@ -28,6 +28,7 @@ export default {
 }
 
 .mms-notepad-title {
+  color: #5E5E5E;
   font-size: 14px;
 }
 
@@ -40,9 +41,22 @@ export default {
   font-size: 20px;
   color: #469F87;
   margin-left: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .mms-notepad-selected:hover {
   cursor: default;
+}
+
+.dot {
+  width: 15px;
+  height: 15px;
+  border-radius: 15px;
+  border: 1px solid grey;
+}
+.isChosen {
+  background-color: grey;
 }
 </style>

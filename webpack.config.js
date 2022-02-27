@@ -5,10 +5,13 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   mode: 'development',
-  entry: './src/index.js',
+  entry: {
+    index: './src/index.js',
+    popup: './src/crx/popup.js'
+  },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'index.js',
+    filename: '[name].js',
     clean: true
   },
   devtool: 'inline-source-map',
@@ -55,7 +58,7 @@ module.exports = {
         to: path.resolve(__dirname, 'dist')
       }, {
         from: path.resolve(__dirname, 'html'),
-        to: path.resolve(__dirname, 'dist'),
+        to: path.resolve(__dirname, 'dist/html'),
         globOptions: {
           ignore: ['**/index.html']
         }

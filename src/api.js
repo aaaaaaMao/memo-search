@@ -1,4 +1,23 @@
-import { SEARCH_WORD_API, TOKEN, LIST_FAVORITES_API, ADD_WORD_TO_NOTEPAD_API, REMOVE_WORD_FROM_NOTEPAD_API } from './config';
+import { init } from './config';
+
+let config = {
+  HOST: '',
+  TOKEN: '',
+  SEARCH_WORD_API: '',
+  LIST_FAVORITES_API: '',
+  ADD_WORD_TO_NOTEPAD_API: '',
+  REMOVE_WORD_FROM_NOTEPAD_API: ''
+};
+(async () => {
+  await init();
+  await new Promise(resolve => {
+    // eslint-disable-next-line no-undef
+    chrome.storage.local.get(config, data => {
+      config = data;
+      resolve();
+    });
+  });
+})();
 
 export async function searchWord (word) {
   const result = {
@@ -8,9 +27,9 @@ export async function searchWord (word) {
     interpretation: 'int. 哎哟，啊呀（某人摔倒或出了点小差错时的用语）'
   };
   try {
-    const data = await fetch(`${SEARCH_WORD_API}?word=${word.trim().toLowerCase()}`, {
+    const data = await fetch(`${config.HOST}${config.SEARCH_WORD_API}?word=${word.trim().toLowerCase()}`, {
       headers: {
-        Token: TOKEN
+        Token: config.TOKEN
       }
     }).then(resp => resp.json());
 
@@ -41,9 +60,9 @@ export async function listFavorites (word) {
   }];
 
   try {
-    const data = await fetch(`${LIST_FAVORITES_API}?word=${word}`, {
+    const data = await fetch(`${config.HOST}${config.LIST_FAVORITES_API}?word=${word}`, {
       headers: {
-        Token: TOKEN
+        Token: config.TOKEN
       }
     }).then(resp => resp.json());
     if (data.success && data.data.favorites.length) {
@@ -58,12 +77,12 @@ export async function listFavorites (word) {
 export async function updateWordInNotepad (word, notepadId, action) {
   try {
     const url = action === 'add'
-      ? ADD_WORD_TO_NOTEPAD_API
-      : REMOVE_WORD_FROM_NOTEPAD_API;
+      ? config.ADD_WORD_TO_NOTEPAD_API
+      : config.REMOVE_WORD_FROM_NOTEPAD_API;
     console.log(word, notepadId, action);
-    const data = await fetch(url, {
+    const data = await fetch(config.HOST + url, {
       headers: {
-        Token: TOKEN,
+        Token: config.TOKEN,
         'Content-Type': 'application/json'
       },
       method: 'POST',

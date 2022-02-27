@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Memo Search",
-    "version": "0.3.2",
+    "version": "0.3.3",
     "description": "Memo Search（Fake）",
     "icons": {
         "16": "images/logo4.png",
@@ -24,8 +24,11 @@
             "hot-reload.js"
         ]
     },
+    "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+    "options_page": "html/options.html",
     "permissions": [
         "contextMenus",
-        "http://localhost:7001/*"
+        "http://localhost:7001/*",
+        "storage"
     ]
 }
