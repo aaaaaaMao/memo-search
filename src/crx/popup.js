@@ -1,10 +1,11 @@
 import Vue from 'vue';
-import PopUp from '../PopUp.vue';
+import Popup from '../Popup.vue';
 
+/* eslint-disable no-unused-vars */
 const app = new Vue({
   el: '#app',
-  template: '<PopUp />',
-  components: { PopUp },
+  template: '<Popup/>',
+  components: { Popup },
   data: {
     message: 1
   }
