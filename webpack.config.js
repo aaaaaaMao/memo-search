@@ -7,7 +7,8 @@ module.exports = {
   mode: 'development',
   entry: {
     index: './src/index.js',
-    popup: './src/crx/popup.js'
+    popup: './src/crx/popup.js',
+    options: './src/crx/options.js'
   },
   output: {
     path: path.resolve(__dirname, 'dist'),

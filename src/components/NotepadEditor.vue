@@ -11,13 +11,13 @@
 </template>
 
 <script>
-import { words } from '../mock';
+
 export default {
   name: 'mms-notepad-editor',
   props: ['selectedContent'],
   data: function () {
     return {
-      words: words.join('\n')
+      words: ''
     };
   },
   created: function () {

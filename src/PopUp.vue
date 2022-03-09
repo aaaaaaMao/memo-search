@@ -2,25 +2,37 @@
   <div id='main'>
     <img src='../images/logo4.png' alt='' width='30px'>
     登录墨墨
-    <form class='login form'>
-      <div class='form-group email'>
-        <input type='email' class='form-control' placeholder='请输入邮箱/手机号码'>
-      </div>
-      <div class='form-group password'>
-        <input type='password' class='form-control' placeholder='请输入密码'>
-        <div class='eye'></div>
-      </div>
-        <button type='submit' class='btn btn-block' id='loginBtn'>登&nbsp;&nbsp;&nbsp;&nbsp;录</button>
-      <p class='error' style='display: none;'></p>
-    </form>
+    <div class='form-group email'>
+      <input name='identity' id='identity' class='form-control' placeholder='请输入邮箱/手机号码'>
+    </div>
+    <div class='form-group password'>
+      <input type='password' name='password' id='password' class='form-control' placeholder='请输入密码'>
+      <div class='eye'></div>
+    </div>
+      <button
+        type='submit'
+        class='btn btn-block'
+        id='loginBtn'
+        @click='login'>登&nbsp;&nbsp;&nbsp;&nbsp;录</button>
+    <p class='error' style='display: none;'></p>
   </div>
 </template>
 
 <script>
+import { login } from './api';
+
 export default {
   name: 'memo-popup',
   data: function () {
     return {};
+  },
+  methods: {
+    login: async function () {
+      const identity = document.getElementById('identity').value;
+      const password = document.getElementById('password').value;
+
+      await login(identity, password);
+    }
   }
 };
 </script>

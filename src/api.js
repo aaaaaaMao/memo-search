@@ -12,13 +12,7 @@ let config = {
 };
 (async () => {
   await init();
-  await new Promise(resolve => {
-    // eslint-disable-next-line no-undef
-    chrome.storage.local.get(config, data => {
-      config = data;
-      resolve();
-    });
-  });
+  await reloadConfig();
 })();
 
 export async function searchWord (word) {
@@ -102,7 +96,9 @@ export async function updateWordInNotepad (word, notepadId, action) {
 
 export async function login (identity, password) {
   try {
-    const data = await fetch(config.HOST + config.LOGIN_API, {
+    const url = config.HOST + config.LOGIN_API;
+
+    const data = await fetch(url, {
       headers: {
         'Content-Type': 'application/json'
       },
@@ -112,9 +108,14 @@ export async function login (identity, password) {
         password
       })
     }).then(resp => resp.json());
+
+    await setLocalStorage({
+      TOKEN: data.data.token.token
+    });
+    await reloadConfig();
     return data.success;
   } catch (err) {
-    console.error(err);
+    console.log(err);
   }
   return false;
 }
@@ -133,4 +134,26 @@ export async function getUserProfile () {
     console.error(err);
   }
   return null;
+}
+
+async function setLocalStorage (data) {
+  return new Promise(resolve => {
+    // eslint-disable-next-line no-undef
+    chrome.storage.local.set(data, resolve);
+  });
+}
+
+async function getLocalStorage (object) {
+  return new Promise(resolve => {
+    // eslint-disable-next-line no-undef
+    chrome.storage.local.get(object, resolve);
+  });
+}
+
+async function reloadConfig () {
+  console.log(config);
+  config = Object.assign(
+    config,
+    await getLocalStorage(config)
+  );
 }
