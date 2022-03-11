@@ -8,7 +8,8 @@ let config = {
   ADD_WORD_TO_NOTEPAD_API: '',
   REMOVE_WORD_FROM_NOTEPAD_API: '',
   LOGIN_API: '',
-  USER_PROFILE_API: ''
+  USER_PROFILE_API: '',
+  user: null
 };
 (async () => {
   await init();
@@ -109,8 +110,11 @@ export async function login (identity, password) {
       })
     }).then(resp => resp.json());
 
+    config.TOKEN = data.data.token.token;
+    const user = await getUserProfile();
     await setLocalStorage({
-      TOKEN: data.data.token.token
+      TOKEN: data.data.token.token,
+      user
     });
     await reloadConfig();
     return data.success;
@@ -143,7 +147,7 @@ async function setLocalStorage (data) {
   });
 }
 
-async function getLocalStorage (object) {
+export async function getLocalStorage (object) {
   return new Promise(resolve => {
     // eslint-disable-next-line no-undef
     chrome.storage.local.get(object, resolve);
