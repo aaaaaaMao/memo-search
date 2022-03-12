@@ -31,8 +31,7 @@ export default {
       const password = document.getElementById('password').value;
 
       await login(identity, password);
-      // eslint-disable-next-line no-undef
-      $emit('login-event');
+      this.$emit('login-event');
     }
   }
 };

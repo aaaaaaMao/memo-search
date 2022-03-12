@@ -21,25 +21,22 @@
 
     <button
       id='logoutBtn'
-      @click='login'>登&nbsp;&nbsp;&nbsp;&nbsp;出</button>
+      @click='$emit("logout-event")'>登&nbsp;&nbsp;&nbsp;&nbsp;出</button>
   </div>
 </template>
 
 <script>
-
 export default {
   name: 'memo-user-profile',
   props: ['user'],
   data: function () {
     return {};
   },
-  methods: {
-  }
+  methods: {}
 };
 </script>
 
 <style scoped>
-
 div {
     text-align: none !important;
 }

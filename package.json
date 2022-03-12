@@ -1,6 +1,6 @@
 {
   "name": "memo-search",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "description": "Memo Search (Fake)",
   "main": "index.js",
   "devDependencies": {

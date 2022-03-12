@@ -8,6 +8,7 @@ let config = {
   ADD_WORD_TO_NOTEPAD_API: '',
   REMOVE_WORD_FROM_NOTEPAD_API: '',
   LOGIN_API: '',
+  LOGOUT_API: '',
   USER_PROFILE_API: '',
   user: null
 };
@@ -26,7 +27,7 @@ export async function searchWord (word) {
   try {
     const data = await fetch(`${config.HOST}${config.SEARCH_WORD_API}?word=${word.trim().toLowerCase()}`, {
       headers: {
-        Token: config.TOKEN
+        Token: await loadToken()
       }
     }).then(resp => resp.json());
 
@@ -59,7 +60,7 @@ export async function listFavorites (word) {
   try {
     const data = await fetch(`${config.HOST}${config.LIST_FAVORITES_API}?word=${word}`, {
       headers: {
-        Token: config.TOKEN
+        Token: await loadToken()
       }
     }).then(resp => resp.json());
     if (data.success && data.data.favorites.length) {
@@ -79,7 +80,7 @@ export async function updateWordInNotepad (word, notepadId, action) {
 
     const data = await fetch(config.HOST + url, {
       headers: {
-        Token: config.TOKEN,
+        Token: await loadToken(),
         'Content-Type': 'application/json'
       },
       method: 'POST',
@@ -124,6 +125,31 @@ export async function login (identity, password) {
   return false;
 }
 
+export async function logout () {
+  try {
+    const url = config.HOST + config.LOGOUT_API;
+
+    const data = await fetch(url, {
+      headers: {
+        Token: config.TOKEN,
+        'Content-Type': 'application/json'
+      },
+      method: 'POST'
+    }).then(resp => resp.json());
+    if (data.success) {
+      await setLocalStorage({
+        TOKEN: '',
+        user: null
+      });
+      await reloadConfig();
+    }
+    return data.success;
+  } catch (err) {
+    console.log(err);
+  }
+  return false;
+}
+
 export async function getUserProfile () {
   try {
     const data = await fetch(`${config.HOST}${config.USER_PROFILE_API}`, {
@@ -160,4 +186,9 @@ async function reloadConfig () {
     config,
     await getLocalStorage(config)
   );
+}
+
+async function loadToken () {
+  const result = await getLocalStorage(['TOKEN']);
+  return result.TOKEN;
 }
