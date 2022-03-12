@@ -11,11 +11,14 @@
            v-if='showContent || focusContent'>
         <div id='mms-bar'>
           <img id='mms-favorite'
-               src='../images/star.256x256.png'
-               v-on:click.prevent='favoriteWord'
-               v-bind:style='favIconStyle'/>
+            v-if='!showFavorite'
+            src='../images/star.256x256.png'
+            v-on:click.prevent='favoriteWord'/>
+          <img id='mms-chevronleft'
+            v-else
+            src='../images/chevronleft.153x256.png'
+            v-on:click.prevent='favoriteWord'/>
           <span id='mms-create-notepad' @click='enterEditor'>
-            <img src='../images/aviator.jpg' alt='' class='aviator'>
           新建云词本 +
           </span>
         </div>
@@ -57,9 +60,6 @@ export default {
       coordStyle: {
         top: '0px',
         left: '0px'
-      },
-      favIconStyle: {
-        color: '#FFFFFF'
       },
       showContent: false,
       showFavorite: false,
@@ -153,6 +153,14 @@ export default {
   width: 18px;
   height: 18px;
   margin: auto 7px;
+  color: '#FFFFFF'
+}
+
+#mms-chevronleft {
+  width: 9px;
+  height: 18px;
+  margin: auto 7px;
+  color: '#FFFFFF'
 }
 
 #mms-create-notepad {
@@ -178,14 +186,5 @@ export default {
   z-index: 9000;
   background-color: rgba(0, 0, 0, .4);
   opacity: 1;
-}
-
-.aviator {
-  height: 20px;
-  width: 20px;
-  border-radius: 20px;
-  overflow: hidden;
-  transform: translateY(5px);
-  cursor: pointer;
 }
 </style>
