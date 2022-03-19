@@ -44,6 +44,7 @@ export async function searchWord (word) {
       result.phoneticUs = `美 ${word.phonetic_us}`;
       result.interpretation = word.interpretation;
     } else {
+      const config = await getLocalStorage(['YOUDAO']);
       if (config.YOUDAO.APP_KEY && config.YOUDAO.APP_SECRET) {
         const data = await translateByYD(word);
         if (result) {
@@ -218,6 +219,7 @@ async function translateByYD (text) {
 
   const data = await fetch(config.HOST + config.TRANSLATE_API, {
     headers: {
+      Token: await loadToken(),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -242,4 +244,9 @@ function truncate (q) {
   const len = q.length;
   if (len <= 20) return q;
   return q.substring(0, 10) + len + q.substring(len - 10, len);
+}
+
+export async function saveOptions (options) {
+  await setLocalStorage(options);
+  await reloadConfig();
 }
