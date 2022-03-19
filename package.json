@@ -1,6 +1,6 @@
 {
   "name": "memo-search",
-  "version": "0.3.5",
+  "version": "0.4.0",
   "description": "Memo Search (Fake)",
   "main": "index.js",
   "devDependencies": {
@@ -39,5 +39,8 @@
   "bugs": {
     "url": "https://github.com/aaaaaaMao/memo-search/issues"
   },
-  "homepage": "https://github.com/aaaaaaMao/memo-search#readme"
+  "homepage": "https://github.com/aaaaaaMao/memo-search#readme",
+  "dependencies": {
+    "crypto-js": "^4.1.1"
+  }
 }

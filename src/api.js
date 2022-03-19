@@ -1,4 +1,5 @@
 import { init } from './config';
+import CryptoJS from 'crypto-js';
 
 let config = {
   HOST: '',
@@ -10,7 +11,12 @@ let config = {
   LOGIN_API: '',
   LOGOUT_API: '',
   USER_PROFILE_API: '',
-  user: null
+  user: null,
+  YOUDAO: {
+    APP_KEY: '',
+    APP_SECRET: ''
+  },
+  TRANSLATE_API: ''
 };
 (async () => {
   await init();
@@ -37,6 +43,16 @@ export async function searchWord (word) {
       result.phoneticUk = `英 ${word.phonetic_uk}`;
       result.phoneticUs = `美 ${word.phonetic_us}`;
       result.interpretation = word.interpretation;
+    } else {
+      if (config.YOUDAO.APP_KEY && config.YOUDAO.APP_SECRET) {
+        const data = await translateByYD(word);
+        if (result) {
+          result.spelling = data.word;
+          result.phoneticUk = data.phonetic;
+          result.phoneticUs = '';
+          result.interpretation = data.explains;
+        }
+      }
     }
   } catch (err) {
     console.error(err);
@@ -181,7 +197,6 @@ export async function getLocalStorage (object) {
 }
 
 async function reloadConfig () {
-  console.log(config);
   config = Object.assign(
     config,
     await getLocalStorage(config)
@@ -191,4 +206,40 @@ async function reloadConfig () {
 async function loadToken () {
   const result = await getLocalStorage(['TOKEN']);
   return result.TOKEN;
+}
+
+async function translateByYD (text) {
+  const salt = (new Date()).getTime();
+  const curtime = Math.round(new Date().getTime() / 1000);
+  const from = 'zh-CHS';
+  const to = 'en';
+  const str1 = config.YOUDAO.APP_KEY + truncate(text) + salt + curtime + config.YOUDAO.APP_SECRET;
+  const sign = CryptoJS.SHA256(str1).toString(CryptoJS.enc.Hex);
+
+  const data = await fetch(config.HOST + config.TRANSLATE_API, {
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    method: 'POST',
+    body: JSON.stringify({
+      q: text,
+      appKey: config.YOUDAO.APP_KEY,
+      salt: salt,
+      from: from,
+      to: to,
+      sign: sign,
+      signType: 'v3',
+      curtime: curtime
+    })
+  }).then(resp => resp.json());
+  if (data.success) {
+    return data.data;
+  }
+  return null;
+}
+
+function truncate (q) {
+  const len = q.length;
+  if (len <= 20) return q;
+  return q.substring(0, 10) + len + q.substring(len - 10, len);
 }
